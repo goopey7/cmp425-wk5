@@ -17,6 +17,7 @@ GameManager::GameManager(sf::RenderWindow* window)
 
 void GameManager::initialize()
 {
+    srand(time(0));
     _paddle = std::make_unique<Paddle>(_window);
     _brickManager = std::make_unique<BrickManager>(_window, this);
     _messagingSystem = std::make_unique<MessagingSystem>(_window);
