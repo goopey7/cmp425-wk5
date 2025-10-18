@@ -15,6 +15,7 @@ public:
     void render();
     sf::FloatRect getBounds() const;
     void setWidth(float coeff, float duration);
+    void setPosition(float x);
 
 private:
     sf::RenderWindow* _window;

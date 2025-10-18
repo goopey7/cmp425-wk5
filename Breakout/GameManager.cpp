@@ -7,7 +7,8 @@ GameManager::GameManager(sf::RenderWindow* window)
     : _window(window), _paddle(nullptr), _ball(nullptr), _brickManager(nullptr), _powerupManager(nullptr),
     _messagingSystem(nullptr), _ui(nullptr), _pause(false), _time(0.f), _lives(3), _pauseHold(0.f), _levelComplete(false),
     _powerupInEffect({ none,0.f }), _timeLastPowerupSpawned(0.f),
-    _shakeTimeRemaining(0.f),_shakeIntensity(0.f),_shakeOffset({0.f, 0.f})
+    _shakeTimeRemaining(0.f),_shakeIntensity(0.f),_shakeOffset({0.f, 0.f}),
+    _lastMouseX(0.f)
 {
     _font.loadFromFile("font/montS.ttf");
     _masterText.setFont(_font);
@@ -91,8 +92,17 @@ void GameManager::update(float dt)
     }
 
     // move paddle
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) _paddle->moveRight(dt);
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) _paddle->moveLeft(dt);
+    if (sf::Mouse::getPosition(*_window).x != _lastMouseX)
+    {
+        sf::Vector2i mousePos = sf::Mouse::getPosition(*_window);
+        _paddle->setPosition(mousePos.x);
+        _lastMouseX = mousePos.x;
+    }
+    else
+    {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) _paddle->moveRight(dt);
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) _paddle->moveLeft(dt);
+    }
 
     // update everything 
     _paddle->update(dt);

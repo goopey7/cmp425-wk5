@@ -45,6 +45,7 @@ private:
     float _shakeIntensity;
     sf::Vector2f _shakeOffset;
     int _lives;
+    int _lastMouseX;
     bool _levelComplete;
     bool _pause;
 
