@@ -6,7 +6,8 @@
 GameManager::GameManager(sf::RenderWindow* window)
     : _window(window), _paddle(nullptr), _ball(nullptr), _brickManager(nullptr), _powerupManager(nullptr),
     _messagingSystem(nullptr), _ui(nullptr), _pause(false), _time(0.f), _lives(3), _pauseHold(0.f), _levelComplete(false),
-    _powerupInEffect({ none,0.f }), _timeLastPowerupSpawned(0.f)
+    _powerupInEffect({ none,0.f }), _timeLastPowerupSpawned(0.f),
+    _shakeTimeRemaining(0.f),_shakeIntensity(0.f),_shakeOffset({0.f, 0.f})
 {
     _font.loadFromFile("font/montS.ttf");
     _masterText.setFont(_font);
@@ -71,6 +72,17 @@ void GameManager::update(float dt)
     // timer.
     _time += dt;
 
+    if (_shakeTimeRemaining > 0.f)
+    {
+        _shakeTimeRemaining -= dt;
+        float currentIntensity = _shakeIntensity * (_shakeTimeRemaining / SHAKE_DURATION_SECONDS);
+        _shakeOffset.x = ((rand() % 200 - 100) / 100.f) * currentIntensity;
+        _shakeOffset.y = ((rand() % 200 - 100) / 100.f) * currentIntensity;
+    }
+    else
+    {
+        _shakeOffset = { 0.f, 0.f };
+    }
 
     if (_time > _timeLastPowerupSpawned + POWERUP_FREQUENCY && rand() % POWERUP_SPAWN_CHANCE == 0)
     {
@@ -93,17 +105,24 @@ void GameManager::loseLife()
     _lives--;
     _ui->lifeLost(_lives);
 
-    // TODO screen shake.
+    _shakeTimeRemaining = SHAKE_DURATION_SECONDS;
+    _shakeIntensity = SHAKE_INTENSITY_NUM_PIXELS;
 }
 
 void GameManager::render()
 {
+    sf::View view = _window->getDefaultView();
+    view.setCenter(view.getCenter() + _shakeOffset);
+    _window->setView(view);
+
     _paddle->render();
     _ball->render();
     _brickManager->render();
     _powerupManager->render();
     _window->draw(_masterText);
     _ui->render();
+
+    _window->setView(_window->getDefaultView());
 }
 
 void GameManager::levelComplete()

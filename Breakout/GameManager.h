@@ -41,6 +41,9 @@ private:
     float _pauseHold;
     float _time;
     float _timeLastPowerupSpawned;
+    float _shakeTimeRemaining;
+    float _shakeIntensity;
+    sf::Vector2f _shakeOffset;
     int _lives;
     bool _levelComplete;
     bool _pause;
