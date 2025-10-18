@@ -12,7 +12,7 @@
 
 class GameManager {
 public:
-    GameManager(sf::RenderWindow* window);
+    GameManager(sf::RenderWindow* window, uint8_t levelIdx);
     void initialize();
     void restart();
     void update(float dt);
@@ -20,7 +20,9 @@ public:
     void render();
     void levelComplete();
     void powerupEffect(POWERUPS pu, float t);
-    bool is_game_over() const;
+    bool isGameOver() const;
+    bool isLevelComplete() const;
+	uint8_t getLevelNumber() const;
 
     Paddle* getPaddle() const;
     BrickManager* getBrickManager() const;
@@ -46,6 +48,7 @@ private:
     sf::Vector2f _shakeOffset;
     int _lives;
     int _lastMouseX;
+    uint8_t _levelIdx;
     bool _levelComplete;
     bool _pause;
 

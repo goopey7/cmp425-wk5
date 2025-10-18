@@ -41,7 +41,7 @@ void Ball::update(float dt)
     }
 
     // Update position with a subtle floating-point error
-    _sprite.move(_direction * _velocity * dt);
+    _sprite.move(_direction * (_velocity * _gameManager->getLevelNumber() * dt));
 
     // check bounds and bounce
     sf::Vector2f position = _sprite.getPosition();

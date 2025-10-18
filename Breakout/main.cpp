@@ -6,7 +6,8 @@ int main()
 {
 
     sf::RenderWindow window(sf::VideoMode(1000, 800), "Breakout");
-    std::unique_ptr<GameManager> gameManager = std::make_unique<GameManager>(&window);
+	uint8_t currentLevel = 1;
+    std::unique_ptr<GameManager> gameManager = std::make_unique<GameManager>(&window, currentLevel);
     gameManager->initialize();
 
     sf::Clock clock;
@@ -29,12 +30,18 @@ int main()
         gameManager->render();
         window.display();
 
-        if (gameManager->is_game_over() && sf::Keyboard::isKeyPressed(sf::Keyboard::Y))
+        if (gameManager->isLevelComplete() && sf::Keyboard::isKeyPressed(sf::Keyboard::Y))
         {
-            gameManager = std::make_unique<GameManager>(&window);
+            gameManager = std::make_unique<GameManager>(&window, ++currentLevel);
             gameManager->initialize();
         }
-        else if (gameManager->is_game_over() && sf::Keyboard::isKeyPressed(sf::Keyboard::N))
+		else if (gameManager->isGameOver() && sf::Keyboard::isKeyPressed(sf::Keyboard::Y))
+        {
+			currentLevel = 1;
+            gameManager = std::make_unique<GameManager>(&window, currentLevel);
+            gameManager->initialize();
+        }
+        else if (gameManager->isGameOver() && sf::Keyboard::isKeyPressed(sf::Keyboard::N))
         {
             break;
         }

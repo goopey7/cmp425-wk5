@@ -2,13 +2,14 @@
 #include "Ball.h"
 #include "PowerupManager.h"
 #include <iostream>
+#include <format>
 
-GameManager::GameManager(sf::RenderWindow* window)
+GameManager::GameManager(sf::RenderWindow* window, uint8_t levelIdx)
     : _window(window), _paddle(nullptr), _ball(nullptr), _brickManager(nullptr), _powerupManager(nullptr),
     _messagingSystem(nullptr), _ui(nullptr), _pause(false), _time(0.f), _lives(3), _pauseHold(0.f), _levelComplete(false),
     _powerupInEffect({ none,0.f }), _timeLastPowerupSpawned(0.f),
     _shakeTimeRemaining(0.f),_shakeIntensity(0.f),_shakeOffset({0.f, 0.f}),
-    _lastMouseX(0)
+    _lastMouseX(0),_levelIdx(levelIdx)
 {
     _font.loadFromFile("font/montS.ttf");
     _masterText.setFont(_font);
@@ -45,7 +46,7 @@ void GameManager::update(float dt)
     }
     if (_levelComplete)
     {
-        _masterText.setString("Level completed.\nPlay again? y/n");
+        _masterText.setString(std::format("Level {} completed.\nPress 'y' to continue", _levelIdx));
         return;
     }
     // pause and pause handling
@@ -140,9 +141,19 @@ void GameManager::levelComplete()
     _levelComplete = true;
 }
 
-bool GameManager::is_game_over() const
+bool GameManager::isGameOver() const
 {
-    return _lives <= 0 || _levelComplete;
+    return _lives <= 0;
+}
+
+bool GameManager::isLevelComplete() const
+{
+    return _levelComplete;
+}
+
+uint8_t GameManager::getLevelNumber() const
+{
+	return _levelIdx;
 }
 
 Paddle* GameManager::getPaddle() const { return _paddle.get(); }
