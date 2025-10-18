@@ -33,7 +33,9 @@ constexpr int BRICK_ROWS = 5;
 constexpr int BRICK_COLUMNS = 10;
 
 // Power-up settings
+constexpr float POWERUP_FREQUENCY = 7.5f;
 constexpr float POWERUP_RADIUS = 15.0f;
+constexpr int POWERUP_SPAWN_CHANCE = 700;
 constexpr float POWERUP_SPEED = 150.0f;
 
 // UI settings
@@ -42,7 +44,6 @@ constexpr float UI_LIFE_PADDING = 20.0f;
 
 // Other game settings
 constexpr float PAUSE_TIME_BUFFER = 0.5f;
-constexpr float POWERUP_FREQUENCY = 7.5f;
 constexpr int INITIAL_LIVES = 3;
 
 // Colour Palette
