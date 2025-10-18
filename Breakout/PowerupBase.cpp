@@ -12,7 +12,7 @@ PowerupBase::PowerupBase(sf::RenderWindow* window, Paddle* paddle, Ball* ball)
     _ball = ball;
 
     // Initial position and direction with some variability
-    float initialX = rand() % window->getSize().x * 0.9 + window->getSize().x * 0.05;
+    float initialX = rand() % window->getSize().x * 0.9f +window->getSize().x * 0.05f;
     _sprite.setPosition(initialX, 5);
     _direction = { 0.0f, FLOAT_DOWN_SPEED };
 

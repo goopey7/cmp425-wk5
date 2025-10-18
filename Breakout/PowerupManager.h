@@ -23,7 +23,7 @@ public:
     void render();
     void spawnPowerup(); // Method to spawn a power-up
     void checkCollision(); // Check collision with paddle
-    int getPowerupsSpawned();
+    size_t getPowerupsSpawned();
     std::pair<POWERUPS, float> getPowerupInEffect();
 
 private:

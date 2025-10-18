@@ -94,7 +94,7 @@ void PowerupManager::checkCollision()
     }
 }
 
-int PowerupManager::getPowerupsSpawned()
+size_t PowerupManager::getPowerupsSpawned()
 {
     return _powerups.size();
 }
