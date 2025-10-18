@@ -6,8 +6,8 @@ int main()
 {
 
     sf::RenderWindow window(sf::VideoMode(1000, 800), "Breakout");
-    GameManager gameManager(&window);
-    gameManager.initialize();
+    std::unique_ptr<GameManager> gameManager = std::make_unique<GameManager>(&window);
+    gameManager->initialize();
 
     sf::Clock clock;
     float deltaTime;
@@ -23,11 +23,17 @@ int main()
 
         deltaTime = clock.restart().asSeconds();
 
-        gameManager.update(deltaTime);
+        gameManager->update(deltaTime);
 
         window.clear();
-        gameManager.render();
+        gameManager->render();
         window.display();
+
+        if (gameManager->is_game_over() && sf::Keyboard::isKeyPressed(sf::Keyboard::Y))
+        {
+            gameManager = std::make_unique<GameManager>(&window);
+            gameManager->initialize();
+        }
     }
 
     return 0;
