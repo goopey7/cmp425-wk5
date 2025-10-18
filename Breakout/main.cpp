@@ -34,6 +34,10 @@ int main()
             gameManager = std::make_unique<GameManager>(&window);
             gameManager->initialize();
         }
+        else if (gameManager->is_game_over() && sf::Keyboard::isKeyPressed(sf::Keyboard::N))
+        {
+            break;
+        }
     }
 
     return 0;
