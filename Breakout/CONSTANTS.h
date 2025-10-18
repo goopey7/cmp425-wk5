@@ -1,7 +1,7 @@
 #pragma once
 
 // implemented powerups
-enum POWERUPS
+enum POWERUPS : uint8_t
 {
     bigPaddle,
     smallPaddle,
