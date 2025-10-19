@@ -4,8 +4,8 @@
 #include "GameManager.h"
 #include <iomanip>
 
-UI::UI(sf::RenderWindow* window, int lives, GameManager* gameManager) 
-	: _window(window), _gameManager(gameManager)
+UI::UI(sf::RenderWindow* window, int lives, GameManager* gameManager, const sf::Font& font) 
+	: _window(window), _gameManager(gameManager), _font(font)
 {
 	for (int i = lives; i > 0; --i)
 	{
@@ -20,7 +20,6 @@ UI::UI(sf::RenderWindow* window, int lives, GameManager* gameManager)
 	_powerupText.setCharacterSize(30);
 	_powerupText.setPosition(800, 10);
 	_powerupText.setFillColor(sf::Color::Cyan);
-	_font.loadFromFile("font/montS.ttf");
 	_powerupText.setFont(_font);
 }
 

@@ -6,7 +6,7 @@
 class MessagingSystem
 {
 public:
-	MessagingSystem(sf::RenderWindow* window);
+	MessagingSystem(sf::RenderWindow* window, const sf::Font& font);
 	~MessagingSystem();
 
 	void update(float dt);
@@ -19,7 +19,7 @@ private:
 	sf::RenderWindow* _window;
 
 	sf::Text _message;
-	sf::Font _font;
+	const sf::Font& _font;
 	float _messageTimer = 0.f;
 	float _timeToDisplay = 0.f;
 };

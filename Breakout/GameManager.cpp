@@ -4,14 +4,13 @@
 #include <iostream>
 #include <format>
 
-GameManager::GameManager(sf::RenderWindow* window, uint8_t levelIdx)
+GameManager::GameManager(sf::RenderWindow* window, uint8_t levelIdx, Leaderboard& board, const sf::Font& font, uint32_t score, const std::chrono::high_resolution_clock::time_point& startTime)
     : _window(window), _paddle(nullptr), _ball(nullptr), _brickManager(nullptr), _powerupManager(nullptr),
     _messagingSystem(nullptr), _ui(nullptr), _pause(false), _time(0.f), _lives(3), _pauseHold(0.f), _levelComplete(false),
     _powerupInEffect({ none,0.f }), _timeLastPowerupSpawned(0.f),
     _shakeTimeRemaining(0.f),_shakeIntensity(0.f),_shakeOffset({0.f, 0.f}),
-    _lastMouseX(0),_levelIdx(levelIdx)
+    _lastMouseX(0),_levelIdx(levelIdx),_board(board), _font(font),_score(score),_startTime(startTime)
 {
-    _font.loadFromFile("font/montS.ttf");
     _masterText.setFont(_font);
     _masterText.setPosition(50, 400);
     _masterText.setCharacterSize(48);
@@ -23,10 +22,10 @@ void GameManager::initialize()
     srand(static_cast<uint32_t>(time(0)));
     _paddle = std::make_unique<Paddle>(_window);
     _brickManager = std::make_unique<BrickManager>(_window, this);
-    _messagingSystem = std::make_unique<MessagingSystem>(_window);
+    _messagingSystem = std::make_unique<MessagingSystem>(_window, _font);
     _ball = std::make_unique<Ball>(_window, 400.0f, this); 
     _powerupManager = std::make_unique<PowerupManager>(_window, _paddle.get(), _ball.get());
-    _ui = std::make_unique<UI>(_window, _lives, this);
+    _ui = std::make_unique<UI>(_window, _lives, this, _font);
 
     // Create bricks
     _brickManager->createBricks(5, 10, 80.0f, 30.0f, 5.0f);
@@ -41,12 +40,11 @@ void GameManager::update(float dt)
 
     if (_lives <= 0)
     {
-        _masterText.setString("Game over.\nPlay again? y/n");
         return;
     }
     if (_levelComplete)
     {
-        _masterText.setString(std::format("Level {} completed.\nPress 'y' to continue", _levelIdx));
+        _masterText.setString(std::format("Level {} completed.\nPress space to continue", _levelIdx));
         return;
     }
     // pause and pause handling
@@ -109,6 +107,14 @@ void GameManager::update(float dt)
     _paddle->update(dt);
     _ball->update(dt);
     _powerupManager->update(dt);
+
+    if (_lives <= 0)
+    {
+        if (!_endTime.has_value())
+        {
+            _endTime = std::chrono::high_resolution_clock::now();
+        }
+    }
 }
 
 void GameManager::loseLife()
@@ -151,6 +157,21 @@ bool GameManager::isLevelComplete() const
     return _levelComplete;
 }
 
+void GameManager::incrementScore()
+{
+    _score++;
+}
+
+std::optional<std::chrono::high_resolution_clock::time_point> GameManager::getTime() const
+{
+    return _endTime;
+}
+
+uint32_t GameManager::getScore() const
+{
+    return _score;
+}
+
 uint8_t GameManager::getLevelNumber() const
 {
 	return _levelIdx;
@@ -158,3 +179,9 @@ uint8_t GameManager::getLevelNumber() const
 
 Paddle* GameManager::getPaddle() const { return _paddle.get(); }
 BrickManager* GameManager::getBrickManager() const { return _brickManager.get(); }
+
+LeaderboardEntry GameManager::getBoardEntry() const
+{
+    auto time = std::chrono::duration_cast<std::chrono::milliseconds>(_endTime.value() - _startTime);
+    return { .timestamp = std::chrono::high_resolution_clock::now(), .name = std::nullopt, .score = _score, .time = time.count() / 1000.f, .levelReached = _levelIdx};
+}

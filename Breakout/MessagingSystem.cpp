@@ -1,10 +1,10 @@
 #include "MessagingSystem.h"
 
-MessagingSystem::MessagingSystem(sf::RenderWindow* window)
+MessagingSystem::MessagingSystem(sf::RenderWindow* window, const sf::Font& font)
+	: _font(font)
 {
 	_window = window;
 	_message.setCharacterSize(24);
-	_font.loadFromFile("font/montS.ttf");
 	_message.setFont(_font);
 	_message.setFillColor(sf::Color::White);
 	_message.setPosition(10, 10);

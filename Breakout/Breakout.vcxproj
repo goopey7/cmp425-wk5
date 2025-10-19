@@ -142,6 +142,7 @@
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="BrickManager.cpp" />
     <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="Leaderboard.cpp" />
     <ClCompile Include="main.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)/SFML/include</AdditionalIncludeDirectories>
     </ClCompile>
@@ -154,6 +155,7 @@
     <ClCompile Include="PowerupManager.cpp" />
     <ClCompile Include="PowerupSlowBall.cpp" />
     <ClCompile Include="PowerupSmallPaddle.cpp" />
+    <ClCompile Include="TextInput.cpp" />
     <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -162,6 +164,7 @@
     <ClInclude Include="BrickManager.h" />
     <ClInclude Include="CONSTANTS.h" />
     <ClInclude Include="GameManager.h" />
+    <ClInclude Include="Leaderboard.h" />
     <ClInclude Include="MessagingSystem.h" />
     <ClInclude Include="Paddle.h" />
     <ClInclude Include="PowerupBase.h" />
@@ -171,6 +174,7 @@
     <ClInclude Include="PowerupManager.h" />
     <ClInclude Include="PowerupSlowBall.h" />
     <ClInclude Include="PowerupSmallPaddle.h" />
+    <ClInclude Include="TextInput.h" />
     <ClInclude Include="UI.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

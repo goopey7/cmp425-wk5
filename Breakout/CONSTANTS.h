@@ -1,4 +1,6 @@
 #pragma once
+#include <cstdint>
+#include <SFML/Graphics/Color.hpp>
 
 // implemented powerups
 enum POWERUPS : uint8_t
@@ -31,6 +33,7 @@ constexpr float BRICK_HEIGHT = 20.0f;
 constexpr float BRICK_PADDING = 5.0f;
 constexpr int BRICK_ROWS = 5;
 constexpr int BRICK_COLUMNS = 10;
+constexpr int BRICK_SCORE = 1;
 
 // Power-up settings
 constexpr float POWERUP_FREQUENCY = 7.5f;
@@ -54,4 +57,7 @@ const sf::Color extraBallEffectsColour = sf::Color(41, 110, 1); // metallic gree
 // Screen Shake Settings
 constexpr float SHAKE_DURATION_SECONDS = 0.5f;
 constexpr float SHAKE_INTENSITY_NUM_PIXELS = 10.f;
+
+// Leaderboard Settings
+constexpr uint8_t LEADERBOARD_ENTRIES = 10;
 

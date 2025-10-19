@@ -10,7 +10,7 @@ class GameManager;
 class UI
 {
 public:
-	UI(sf::RenderWindow* window, int lives, GameManager* gameManager);
+	UI(sf::RenderWindow* window, int lives, GameManager* gameManager, const sf::Font& font);
 	~UI();
 
 	void updatePowerupText(std::pair<POWERUPS, float>);
@@ -21,7 +21,7 @@ private:
 	GameManager* _gameManager;
 	
 	sf::RenderWindow* _window;
-	sf::Font _font;
+	const sf::Font& _font;
 	sf::Text _powerupText;
 
 	std::vector<sf::CircleShape> _lives;

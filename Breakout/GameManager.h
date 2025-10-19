@@ -7,12 +7,13 @@
 #include "PowerupManager.h"
 #include "MessagingSystem.h"
 #include "UI.h"
+#include "Leaderboard.h"
 
 
 
 class GameManager {
 public:
-    GameManager(sf::RenderWindow* window, uint8_t levelIdx);
+    GameManager(sf::RenderWindow* window, uint8_t levelIdx, Leaderboard& board, const sf::Font& font, uint32_t score, const std::chrono::high_resolution_clock::time_point& startTime);
     void initialize();
     void restart();
     void update(float dt);
@@ -22,7 +23,11 @@ public:
     void powerupEffect(POWERUPS pu, float t);
     bool isGameOver() const;
     bool isLevelComplete() const;
+    void incrementScore();
+    std::optional<std::chrono::high_resolution_clock::time_point> getTime() const;
+    uint32_t getScore() const;
 	uint8_t getLevelNumber() const;
+    LeaderboardEntry getBoardEntry() const;
 
     Paddle* getPaddle() const;
     BrickManager* getBrickManager() const;
@@ -36,16 +41,20 @@ private:
     std::unique_ptr<PowerupManager> _powerupManager;
     std::unique_ptr<MessagingSystem> _messagingSystem;
     std::unique_ptr<UI> _ui;
-    sf::Font _font;
+    std::optional<std::chrono::high_resolution_clock::time_point> _endTime;
+    const std::chrono::high_resolution_clock::time_point& _startTime;
+    const sf::Font& _font;
     sf::Text _masterText;
 
     std::pair<POWERUPS, float> _powerupInEffect;
+    Leaderboard& _board;
     float _pauseHold;
     float _time;
     float _timeLastPowerupSpawned;
     float _shakeTimeRemaining;
     float _shakeIntensity;
     sf::Vector2f _shakeOffset;
+    uint32_t _score;
     int _lives;
     int _lastMouseX;
     uint8_t _levelIdx;
